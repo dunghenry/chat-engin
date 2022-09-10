@@ -6,6 +6,11 @@
         Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #002766c2;
+}
 /* Chats Page */
 
 .chats-page {
@@ -49,7 +54,6 @@
 /* Login Page */
 
 #login-page {
-    background-image: linear-gradient(#40a9ffa0, #096dd99d);
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -59,7 +63,7 @@
 
 #login-card {
     position: relative;
-    top: calc(50vh - 144px);
+    top: calc(23vh - 144px);
     left: calc(50vw - 210px);
     padding-top: 36px;
     padding-bottom: 66px;

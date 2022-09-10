@@ -1,15 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { loginGoogle } from '../actions/authActions';
-export const authLoginGoogle = createAsyncThunk(
-    'auth/loginGoogle',
-    async (_, { rejectWithValue }) => {
-        try {
-            return await loginGoogle();
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
-    },
-);
+import { createSlice } from '@reduxjs/toolkit';
+import {
+    authLoginGoogle,
+    authLoginGithub,
+    authLoginFacebook,
+} from '../actions/authActions';
 const initialState = {
     currentUser: null,
     loading: false,
@@ -18,6 +12,11 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
+    reducers: {
+        addUser: (state, action) => {
+            state.currentUser = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(authLoginGoogle.pending, (state) => {
@@ -30,9 +29,32 @@ const authSlice = createSlice({
             .addCase(authLoginGoogle.rejected, (state) => {
                 state.loading = false;
                 state.error = true;
+            })
+
+            .addCase(authLoginGithub.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(authLoginGithub.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload;
+            })
+            .addCase(authLoginGithub.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
+            })
+            .addCase(authLoginFacebook.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(authLoginFacebook.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload;
+            })
+            .addCase(authLoginFacebook.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
             });
     },
 });
-export const {} = authSlice.actions;
+export const { addUser } = authSlice.actions;
 const authReducer = authSlice.reducer;
 export default authReducer;

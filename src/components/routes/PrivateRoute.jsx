@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import LoadingToRedirect from './LoadingToRedirect';
+import RedirectPrivate from './RedirectPrivate';
 const PrivateRoute = ({ children }) => {
     const { currentUser } = useSelector((state) => state.authReducer);
-    return currentUser ? children : <LoadingToRedirect />;
+    return currentUser ? children : <RedirectPrivate />;
 };
 
 export default PrivateRoute;

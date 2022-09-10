@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-const LoadingToRedirect = () => {
+const RedirectPrivate = () => {
     const [count, setCount] = useState(2);
     const navigate = useNavigate();
     useEffect(() => {
@@ -11,16 +11,18 @@ const LoadingToRedirect = () => {
         return () => clearInterval(interval);
     }, [count, navigate]);
     return (
-        <div style={{ marginTop: '300px', textAlign: 'center' }}>
+        <div
+            style={{ marginTop: '300px', textAlign: 'center', color: 'white' }}
+        >
             <h4>
                 Redirecting you in{' '}
-                <span style={{ color: 'gray', textDecoration: 'underline' }}>
-                    {'0' + count}
-                </span>{' '}
+                <span style={{ color: 'black' }}>
+                    &nbsp;{'0' + count} &nbsp;
+                </span>
                 seconds
             </h4>
         </div>
     );
 };
 
-export default LoadingToRedirect;
+export default RedirectPrivate;

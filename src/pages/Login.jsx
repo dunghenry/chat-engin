@@ -4,32 +4,32 @@ import {
     FacebookOutlined,
     GithubOutlined,
 } from '@ant-design/icons';
-// import {
-//     GoogleAuthProvider,
-//     signInWithRedirect,
-//     FacebookAuthProvider,
-//     GithubAuthProvider,
-// } from 'firebase/auth';
-// import { auth } from '../firebase';
-import { authLoginGoogle } from '../store/slices/authSlice';
-import { useDispatch } from 'react-redux';
+import {
+    authLoginGoogle,
+    authLoginFacebook,
+    authLoginGithub,
+} from '../store/actions/authActions';
+import { useDispatch, useSelector } from 'react-redux';
+import LoginForm from '../components/login/LoginForm';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { currentUser } = useSelector((state) => state.authReducer);
     const loginWithGoogle = () => {
-        dispatch(authLoginGoogle());
+        dispatch(authLoginGoogle(navigate));
     };
     const loginWithFacebook = () => {
-        const provider = new FacebookAuthProvider();
-        signInWithRedirect(auth, provider);
+        dispatch(authLoginFacebook(navigate));
     };
     const loginWithGithub = () => {
-        const provider = new GithubAuthProvider();
-        signInWithRedirect(auth, provider);
+        dispatch(authLoginGithub(navigate));
     };
     return (
         <div id="login-page">
             <div id="login-card">
                 <h2>Welcome to Firebase Auth</h2>
+                <LoginForm />
                 <div className="login-button google" onClick={loginWithGoogle}>
                     <GoogleOutlined /> Sign In with Google
                 </div>
