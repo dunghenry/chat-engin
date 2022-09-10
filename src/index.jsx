@@ -8,16 +8,17 @@ import store from './store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+import { ToastContainer } from 'react-toastify';
 const persistor = persistStore(store);
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                    <App />
-                </PersistGate>
-            </Provider>
-        </BrowserRouter>
-        , //{' '}
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <BrowserRouter>
+        <Provider store={store}>
+            {/* <PersistGate loading={null} persistor={persistor}> */}
+            <App />
+            <ToastContainer />
+            {/* </PersistGate> */}
+        </Provider>
+    </BrowserRouter>,
+    // </React.StrictMode>,
 );
