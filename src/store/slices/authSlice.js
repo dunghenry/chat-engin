@@ -3,6 +3,8 @@ import {
     authLoginGoogle,
     authLoginGithub,
     authLoginFacebook,
+    authLogin,
+    authRegister
 } from '../actions/authActions';
 const initialState = {
     currentUser: null,
@@ -13,9 +15,12 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        addUser: (state, action) => {
+        setUser: (state, action) => {
             state.currentUser = action.payload;
         },
+        logOut: (state, action) => {
+            state.currentUser = null;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -30,7 +35,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = true;
             })
-
             .addCase(authLoginGithub.pending, (state) => {
                 state.loading = true;
             })
@@ -52,9 +56,30 @@ const authSlice = createSlice({
             .addCase(authLoginFacebook.rejected, (state) => {
                 state.loading = false;
                 state.error = true;
+            })
+            .addCase(authLogin.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(authLogin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentUser = action.payload;
+            })
+            .addCase(authLogin.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
+            })
+            .addCase(authRegister.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(authRegister.fulfilled, (state, action) => {
+                state.loading = false;
+            })
+            .addCase(authRegister.rejected, (state) => {
+                state.loading = false;
+                state.error = true;
             });
     },
 });
-export const { addUser } = authSlice.actions;
+export const { setUser, logOut } = authSlice.actions;
 const authReducer = authSlice.reducer;
 export default authReducer;

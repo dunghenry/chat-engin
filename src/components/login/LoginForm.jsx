@@ -10,6 +10,8 @@ const LoginForm = () => {
         e.preventDefault();
         const user = { email, password };
         dispatch(authLogin(user));
+        setEmail('');
+        setPassword('');
     };
     return (
         <Container maxWidth="sm">

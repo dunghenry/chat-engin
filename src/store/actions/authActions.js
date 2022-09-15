@@ -8,15 +8,12 @@ import {
     updateProfile,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    sendEmailVerification,
 } from 'firebase/auth';
 
 export const register = async (user) => {
     try {
         await createUserWithEmailAndPassword(auth, user.email, user.password);
-        sendEmailVerification(auth.currentUser).then(() => {
-            console.log('Email verification sent!');
-        });
+        return;
     } catch (error) {
         console.log(error);
     }

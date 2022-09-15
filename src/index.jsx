@@ -12,13 +12,13 @@ import { ToastContainer } from 'react-toastify';
 const persistor = persistStore(store);
 root.render(
     // <React.StrictMode>
-    <BrowserRouter>
-        <Provider store={store}>
-            {/* <PersistGate loading={null} persistor={persistor}> */}
+    <Provider store={store}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
+        <BrowserRouter>
             <App />
             <ToastContainer />
-            {/* </PersistGate> */}
-        </Provider>
-    </BrowserRouter>,
-    // </React.StrictMode>,
+        </BrowserRouter>
+        {/* </PersistGate> */}
+    </Provider>,
+    // </React.StrictMode>
 );

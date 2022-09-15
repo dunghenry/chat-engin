@@ -10,6 +10,8 @@ const RegisterForm = () => {
         e.preventDefault();
         const user = { email, password };
         dispatch(authRegister(user));
+        setEmail('');
+        setPassword('');
     };
     return (
         <Container

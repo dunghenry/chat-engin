@@ -11,44 +11,59 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Users from './pages/Users';
 import Students from './pages/Students';
 import Storage from './pages/Storage';
+import { sendEmailVerification, signOut } from 'firebase/auth';
+import { setUser, logOut } from './store/slices/authSlice';
+import VefifyEmail from './pages/VefifyEmail';
 function App() {
     const { currentUser } = useSelector((state) => state.authReducer);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     React.useEffect(() => {
+        // dispatch(logOut()); //logOut
+        // signOut(auth)
+        //     .then(() => {
+        //         console.log('Sign-out successfully');
+        //     })
+        //     .catch((error) => {
+        //         console.log('Sign-out failure');
+        //     });
+    }, []);
+    React.useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user && !user.emailVerified) {
-                user.emailVerified = true;
+            const providerId = user?.providerData.some(
+                (p) => p.providerId === 'password',
+            );
+            if (providerId && !user.emailVerified) {
+                sendEmailVerification(auth.currentUser).then(() => {
+                    console.log('Email verification sent!');
+                });
+                signOut(auth)
+                    .then(() => {
+                        console.log('Sign-out successfully');
+                    })
+                    .catch((error) => {
+                        console.log('Sign-out failure');
+                    });
+                return navigate('/verify_email');
             } else {
-                console.log(user);
+                if (user) {
+                    setUser(user);
+                    navigate('/');
+                }
             }
         });
-    }, []);
+    }, [dispatch]);
 
     return (
         <div style={{ fontFamily: 'Avenir' }}>
             <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <PrivateRoute>
-                            <Home />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path="/login"
-                    element={
-                        <PublicRoute>
-                            <Login />
-                        </PublicRoute>
-                    }
-                />
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/students" element={<Students />} />
                 <Route path="/storage" element={<Storage />} />
+                <Route path="/verify_email" element={<VefifyEmail />} />
             </Routes>
         </div>
     );
